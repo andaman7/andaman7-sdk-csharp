@@ -16,7 +16,7 @@ namespace Andaman7SDK.Examples
     {
         static void Main(string[] args)
         {
-            Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(@"../../A7.json"));
+            Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(@"../../config.json"));
             A7Client client = new A7Client(config);
 
             // Search target user
