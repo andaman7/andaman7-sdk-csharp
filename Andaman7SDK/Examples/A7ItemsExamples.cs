@@ -6,9 +6,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Andaman7SDK.Examples
 {
@@ -16,12 +13,13 @@ namespace Andaman7SDK.Examples
     {
         static void Main(string[] args)
         {
+            #region Sender part
             Config config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(@"../../config.json"));
             A7Client client = new A7Client(config);
 
             // Search target user
             UserService userService = client.UserService;
-            List<User> foundUsers = userService.Search(mail: "a@a.com");
+            List<User> foundUsers = userService.Search(mail: "<TARGET USER EMAIL ADDRESS>");
 
             if (foundUsers.Count != 1)
             {
@@ -47,27 +45,27 @@ namespace Andaman7SDK.Examples
 
             // Create an A7Item for the EHR
             String ehrId = System.Guid.NewGuid().ToString(); // Your custom EHR ID (should not change in the future)
-            A7Item ehr = new A7Item(A7ItemType.AmiSet, "amiSet.ehr", null, authUser.id, deviceId);
+            A7Item ehr = new A7Item(A7ItemType.AmiSet, ehrId, "amiSet.ehr", null, authUser.id, deviceId, null);
             ehr.version = 8;
 
             // Create an A7Item for the document
             String fileId = System.Guid.NewGuid().ToString(); // The file ID. Will be used in A7Item value and as key in the file map
             String documentId = "478e1332-5383-43c0-878f-fe1e8a4e6d01"; // The ID of the document. It should not change if the document can be modified and sent again
-            A7Item document = new A7Item(A7ItemType.AMI, "ami.document.bloodAnalysis", fileId, authUser.id, deviceId);
+            A7Item document = new A7Item(A7ItemType.AMI, "ami.document.bloodAnalysis", fileId, authUser.id, deviceId, ehrId);
             document.parentId = ehrId;
             document.uuidMulti = documentId;
             document.version = 8;
 
             // Create an A7Item for the weight
-            A7Item height = new A7Item(A7ItemType.AMI, "ami.height", "185", authUser.id, deviceId);
+            A7Item height = new A7Item(A7ItemType.AMI, "ami.height", "185", authUser.id, deviceId, ehrId);
             height.version = 8;
 
             // Create an A7Item for the namespace entry
-            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "<YOUR DOMAIN NAME>", authUser.id, deviceId);
+            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "be.ac.ulg.chu", authUser.id, deviceId, ehrId);
             namespaceEntry.version = 8;
 
             // Create an A7Item for the namespace value
-            A7Item namespaceValue = new A7Item(A7ItemType.AMI, "ami.namespaceValue", ehrId, authUser.id, deviceId);
+            A7Item namespaceValue = new A7Item(A7ItemType.Qualifier, "qualifier.namespaceValue", ehrId, authUser.id, deviceId, namespaceEntry.id);
             namespaceValue.version = 8;
 
             List<A7Item> a7Items = new List<A7Item>();
@@ -78,7 +76,7 @@ namespace Andaman7SDK.Examples
             a7Items.Add(namespaceValue);
 
             // Create envelope
-            SyncContent syncContent = new SyncContent();
+            A7ItemsEnvelope syncContent = new A7ItemsEnvelope();
             syncContent.sourceDeviceId = deviceId;
             syncContent.a7Items = JsonConvert.SerializeObject(a7Items);
 
@@ -89,8 +87,46 @@ namespace Andaman7SDK.Examples
 
             // Send the data to A7 server
             a7ItemService.SendA7Items(recipientUser.id, syncContent);
+            #endregion
+
+            #region Receiver part
+            Credentials receiverCredentials = new Credentials("<RECEIVER EMAIL ADDRES>", "<RECEIVER PASSWORD>");
+            Config receiverConfig = new Config(config.BaseUrl, config.ApiKey, receiverCredentials);
+            A7Client receiverClient = new A7Client(receiverConfig);
+
+            AuthenticatedUser receiverUser = receiverClient.UserService.GetAuthenticatedUser();
+            List<Device> receiverDevices = receiverClient.DeviceService.GetDevices();
+            List<A7ItemsResponseEnvelope> responseEnvelopes = receiverClient.A7ItemService.GetA7Items(receiverUser.id, receiverDevices[0].id);
+                       
+            foreach(A7ItemsResponseEnvelope responseEnvelope in responseEnvelopes)
+            {
+                // Deserialize and display the received A7 items
+                List<A7Item> receivedA7Items = JsonConvert.DeserializeObject<List<A7Item>>(responseEnvelope.a7Items);
+                Console.Out.WriteLine(String.Format(" {0} A7Items received from {1}.", receivedA7Items.Count, responseEnvelope.sourceDeviceId));
+
+                foreach (A7Item a7Item in receivedA7Items)
+                {
+                    Console.Out.WriteLine("\t{0} : {1}", a7Item.key, a7Item.value == null ? "N/A" : a7Item.value);
+                }
+
+                Dictionary<string, string> receivedFileMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseEnvelope.fileMap);
+
+                if (receivedFileMap.Count > 0)
+                {
+                    Console.Out.WriteLine();
+                    Console.Out.WriteLine("\tReceived files :");
+                    foreach (KeyValuePair<string, string> entry in receivedFileMap)
+                    {
+                        Console.Out.WriteLine(String.Format("\t\t{0} : {1}", entry.Key, entry.Value));
+                    }
+                }
+
+                // Send an ACK to the server
+                receiverClient.A7ItemService.AcknowledgeA7ItemsEnvelope(receiverUser.id, responseEnvelope.id);
+            }
 
             Console.Read();
+            #endregion
         }
     }
 }

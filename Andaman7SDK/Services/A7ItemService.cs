@@ -28,5 +28,11 @@ namespace Andaman7SDK.Services
 
             return ExecuteRequest<EnvelopeMultiItems<A7ItemsResponseEnvelope>>(String.Format("users/{0}/a7-items", userId), Method.GET, parameters).data;
         }
+
+        public void AcknowledgeA7ItemsEnvelope(String userId, string envelopeId)
+        {
+            RestRequest request = new RestRequest(String.Format("/users/{0}/a7-items/{1}", userId, envelopeId), Method.PUT);
+            Client.Execute(request);
+        }
     }
 }

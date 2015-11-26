@@ -113,7 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="A7.json" />
+    <None Include="config.json" />
+    <None Include="config.json.template" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -135,11 +136,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties A7_1json__JSONSchema="http://json-schema.org/draft-04/schema" />
-    </VisualStudio>
-  </ProjectExtensions>
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
