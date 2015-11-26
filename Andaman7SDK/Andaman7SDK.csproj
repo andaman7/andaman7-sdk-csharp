@@ -86,8 +86,8 @@
     <Compile Include="Exceptions\A7Exception.cs" />
     <Compile Include="Models\A7Items\A7Item.cs" />
     <Compile Include="Models\A7Items\A7ItemType.cs" />
-    <Compile Include="Models\A7Items\ResultSyncContent.cs" />
-    <Compile Include="Models\A7Items\SyncContent.cs" />
+    <Compile Include="Models\A7Items\A7ItemsResponseEnvelope.cs" />
+    <Compile Include="Models\A7Items\A7ItemsEnvelope.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Devices\DeviceProperty.cs" />
     <Compile Include="Models\Error.cs" />

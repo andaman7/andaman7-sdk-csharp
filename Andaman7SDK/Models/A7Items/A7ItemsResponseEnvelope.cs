@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Andaman7SDK.Models.A7Items
 {
-    public class ResultSyncContent : SyncContent
+    public class A7ItemsResponseEnvelope : A7ItemsEnvelope
     {
-        public string medicalRecordId { get; set; }
+        public string id { get; set; }
 
-        public ResultSyncContent()
+        public A7ItemsResponseEnvelope()
         {
 
         }
