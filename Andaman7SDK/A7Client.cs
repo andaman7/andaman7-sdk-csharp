@@ -1,6 +1,9 @@
-﻿using Andaman7SDK.Services;
+﻿using Andaman7SDK.Exceptions;
+using Andaman7SDK.Models;
+using Andaman7SDK.Services;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +17,7 @@ namespace Andaman7SDK
     {
         private Config Config;
         private RestClient RestClient;
+        private JsonDeserializer Deserializer;
 
         public UserService UserService { get; }
         public DeviceService DeviceService { get; }
@@ -26,6 +30,7 @@ namespace Andaman7SDK
             this.UserService = new UserService(this);
             this.DeviceService = new DeviceService(this);
             this.A7ItemService = new A7ItemService(this);
+            this.Deserializer = new JsonDeserializer();
 
             String email = Config.Credentials.Email;
             String password = config.Credentials.Password;
@@ -44,14 +49,28 @@ namespace Andaman7SDK
             RestClient.AddDefaultHeader("api-key", apiKey);
         }
 
-        public IRestResponse<T> Execute<T>(IRestRequest request) where T : new()
+        public T Execute<T>(IRestRequest request) where T : new()
         {
-            return RestClient.Execute<T>(request);
+            IRestResponse<T> response = RestClient.Execute<T>(request);
+            HandleError(response);
+
+            return Deserializer.Deserialize<T>(response);
         }
 
         public void Execute(IRestRequest request)
         {
-            RestClient.Execute(request);
+            IRestResponse response = RestClient.Execute(request);
+            HandleError(response);
+        }
+
+        private void HandleError(IRestResponse response)
+        {
+            if (response.StatusCode != System.Net.HttpStatusCode.OK &&
+                response.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                Error error = Deserializer.Deserialize<Error>(response);
+                throw new A7Exception(error);
+            }
         }
     }
 }

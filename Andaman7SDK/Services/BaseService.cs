@@ -45,10 +45,7 @@ namespace Andaman7SDK.Services
                 request.AddQueryParameter("_envelope", "true");
             }
 
-            IRestResponse<K> response = Client.Execute<K>(request);
-            K envelope = Deserializer.Deserialize<K>(response);
-
-            return envelope;
+            return Client.Execute<K>(request);
         }
 
         protected List<T> GetAll()

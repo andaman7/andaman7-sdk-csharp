@@ -83,12 +83,14 @@
     <Compile Include="Examples\A7ItemsExamples.cs" />
     <Compile Include="Examples\DevicesExamples.cs" />
     <Compile Include="Examples\UsersExamples.cs" />
+    <Compile Include="Exceptions\A7Exception.cs" />
     <Compile Include="Models\A7Items\A7Item.cs" />
     <Compile Include="Models\A7Items\A7ItemType.cs" />
     <Compile Include="Models\A7Items\ResultSyncContent.cs" />
     <Compile Include="Models\A7Items\SyncContent.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Devices\DeviceProperty.cs" />
+    <Compile Include="Models\Error.cs" />
     <Compile Include="Models\Users\Address.cs" />
     <Compile Include="Models\Users\Administrative.cs" />
     <Compile Include="Models\Users\AuthenticatedUser.cs" />
