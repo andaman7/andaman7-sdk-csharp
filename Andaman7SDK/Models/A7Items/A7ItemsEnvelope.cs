@@ -1,6 +1,5 @@
 ﻿using RestSharp.Deserializers;
 using RestSharp.Serializers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,7 @@ namespace Andaman7SDK.Models.A7Items
     {
         public string sourceDeviceId { get; set; }
         public string a7Items { get; set; }
-        public string fileMap { get; set; }
+        public A7Document document { get; set; }
 
         public A7ItemsEnvelope()
         {
