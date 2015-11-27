@@ -19,8 +19,7 @@ namespace Andaman7SDK.Examples
 
             // Search target user
             UserService userService = client.UserService;
-            //List<User> foundUsers = userService.Search(mail: "<TARGET USER EMAIL ADDRESS>");
-            List<User> foundUsers = userService.Search(mail: "a@a.com");
+            List<User> foundUsers = userService.Search(mail: "<TARGET USER EMAIL ADDRESS>");
 
             if (foundUsers.Count != 1)
             {
@@ -87,8 +86,7 @@ namespace Andaman7SDK.Examples
             #endregion
 
             #region Receiver part
-            //Credentials receiverCredentials = new Credentials("<RECEIVER EMAIL ADDRES>", "<RECEIVER PASSWORD>");
-            Credentials receiverCredentials = new Credentials("a@a.com", "aaaaaa");
+            Credentials receiverCredentials = new Credentials("<RECEIVER EMAIL ADDRES>", "<RECEIVER PASSWORD>");
             Config receiverConfig = new Config(config.BaseUrl, config.ApiKey, receiverCredentials);
             A7Client receiverClient = new A7Client(receiverConfig);
 
