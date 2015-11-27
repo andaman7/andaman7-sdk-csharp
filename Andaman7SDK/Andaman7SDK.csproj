@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{768F0F28-7FF8-411F-868A-4C6BE1212942}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Andaman7SDK</RootNamespace>
     <AssemblyName>Andaman7SDK</AssemblyName>
@@ -48,7 +48,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Andaman7SDK.Examples.UsersExamples</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JsonConfig, Version=1.0.5359.16918, Culture=neutral, processorArchitecture=MSIL">
@@ -88,6 +89,7 @@
     <Compile Include="Models\A7Items\A7ItemType.cs" />
     <Compile Include="Models\A7Items\A7ItemsResponseEnvelope.cs" />
     <Compile Include="Models\A7Items\A7ItemsEnvelope.cs" />
+    <Compile Include="Models\A7Items\A7Document.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Devices\DeviceProperty.cs" />
     <Compile Include="Models\Error.cs" />
