@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Andaman7SDK.Models.A7Items
 {
-    class A7Item
+    public class A7Item
     {
         public string id { get; set; }
         public DateTime creationDate { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Andaman7SDK.Models.A7Items
 {
-    class A7ItemType
+    public class A7ItemType
     {
         public String Type { get; set; }
 
