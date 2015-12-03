@@ -1,5 +1,6 @@
 ﻿using Andaman7SDK.Models.A7Items;
 using Andaman7SDK.Models.Devices;
+using Andaman7SDK.Models.Document;
 using Andaman7SDK.Models.Users;
 using Andaman7SDK.Services;
 using Newtonsoft.Json;
@@ -44,34 +45,32 @@ namespace Andaman7SDK.Examples
             A7ItemService a7ItemService = client.A7ItemService;
 
             // Create an A7Item for the EHR
-            String ehrId = System.Guid.NewGuid().ToString(); // Your custom EHR ID (should not change in the future)
-            A7Item ehr = new A7Item(A7ItemType.AmiSet, ehrId, "amiSet.ehr", null, authUser.id, deviceId, null);
-            ehr.version = 8;
+            String ehrId = "4b99752e-4606-43e4-83a0-d4f3731d12ce"; // Your custom EHR ID (should not change in the future)
+            A7Item ehr = new A7Item(A7ItemType.AmiSet, ehrId, "amiSet.ehr", null, 8, authUser.id, deviceId, null);
 
             // Create an A7Item for the document
-            String fileId = System.Guid.NewGuid().ToString(); // The file ID. Will be used in A7Item value and as key in the file map
-            String documentId = "478e1332-5383-43c0-878f-fe1e8a4e6d01"; // The ID of the document. It should not change if the document can be modified and sent again
-            A7Item a7ItemDocument = new A7Item(A7ItemType.AMI, "ami.document.bloodAnalysis", fileId, authUser.id, deviceId, ehrId);
-            a7ItemDocument.parentId = ehrId;
-            a7ItemDocument.uuidMulti = documentId;
-            a7ItemDocument.version = 8;
+            string b64EncodedFileContent = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("<YOUR FILE CONTENT>"));
+            /*
+               To find the types of document supported by Andaman7, please visit the follwing URL
+               and search for AMIs starting by "ami.document" : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#amis
+               
+               The supported document subject matters are available there : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#sl_subjectMatter
+             */
+            Document document = new Document(12, "<DOCUMENT TYPE>", b64EncodedFileContent, "<FILE NAME>", "<FILE MIME TYPE>", "<DOCUMENT SUBJECT MATTER>");
 
             // Create an A7Item for the weight
-            A7Item height = new A7Item(A7ItemType.AMI, "ami.height", "185", authUser.id, deviceId, ehrId);
-            height.version = 8;
+            A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "<WEIGHT VALUE>", 12, authUser.id, deviceId, ehrId);
 
             // Create an A7Item for the namespace entry
-            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "be.ac.ulg.chu", authUser.id, deviceId, ehrId);
-            namespaceEntry.version = 8;
-
+            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "<YOUR DOMAIN NAME>", 8,  authUser.id, deviceId, ehrId);
+     
             // Create an A7Item for the namespace value
-            A7Item namespaceValue = new A7Item(A7ItemType.Qualifier, "qualifier.namespaceValue", ehrId, authUser.id, deviceId, namespaceEntry.id);
-            namespaceValue.version = 8;
+            A7Item namespaceValue = new A7Item(A7ItemType.Qualifier, "qualifier.namespaceValue", ehrId, 8, authUser.id, deviceId, namespaceEntry.id);
 
             List<A7Item> a7Items = new List<A7Item>();
             a7Items.Add(ehr);
-            a7Items.Add(a7ItemDocument);
-            a7Items.Add(height);
+            a7Items.AddRange(A7ItemService.GetA7ItemsFromDocument(authUser.id, deviceId, ehrId, document));
+            a7Items.Add(weight);
             a7Items.Add(namespaceEntry);
             a7Items.Add(namespaceValue);
 
@@ -79,7 +78,7 @@ namespace Andaman7SDK.Examples
             A7ItemsEnvelope syncContent = new A7ItemsEnvelope();
             syncContent.sourceDeviceId = deviceId;
             syncContent.a7Items = JsonConvert.SerializeObject(a7Items);
-            syncContent.document = new A7Document(fileId, "<BASE64 ENCODED FILE CONTENT>");
+            syncContent.document = new DocumentContent(document.fileId, document.content);
             
             // Send the data to A7 server
             a7ItemService.SendA7Items(recipientUser.id, syncContent);
@@ -107,8 +106,8 @@ namespace Andaman7SDK.Examples
 
                 if (responseEnvelope.document != null)
                 {
-                    A7Document document = responseEnvelope.document;
-                    Console.Out.WriteLine(String.Format("\t\t{0} : {1}", document.id, document.content));
+                    DocumentContent documentContent = responseEnvelope.document;
+                    Console.Out.WriteLine(String.Format("\t\t{0} : {1}", documentContent.id, documentContent.content));
                 }
 
                 // Send an ACK to the server
@@ -116,7 +115,7 @@ namespace Andaman7SDK.Examples
             }
 
             Console.Read();
-            #endregion
+            #endregion  
         }
     }
 }

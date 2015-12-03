@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Andaman7SDK.Models.A7Items
 {
-    public class A7Document
+    public class DocumentContent
     {
         public string id { get; set; }
         public string content { get; set; }
 
-        public A7Document()
+        public DocumentContent()
         {
 
         }
 
-        public A7Document(string id, string content)
+        public DocumentContent(string id, string content)
         {
             this.id = id;
             this.content = content;

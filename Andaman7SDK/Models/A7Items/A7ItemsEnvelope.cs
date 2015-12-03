@@ -11,7 +11,7 @@ namespace Andaman7SDK.Models.A7Items
     {
         public string sourceDeviceId { get; set; }
         public string a7Items { get; set; }
-        public A7Document document { get; set; }
+        public DocumentContent document { get; set; }
 
         public A7ItemsEnvelope()
         {

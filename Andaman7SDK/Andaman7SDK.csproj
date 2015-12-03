@@ -89,9 +89,10 @@
     <Compile Include="Models\A7Items\A7ItemType.cs" />
     <Compile Include="Models\A7Items\A7ItemsResponseEnvelope.cs" />
     <Compile Include="Models\A7Items\A7ItemsEnvelope.cs" />
-    <Compile Include="Models\A7Items\A7Document.cs" />
+    <Compile Include="Models\A7Items\DocumentContent.cs" />
     <Compile Include="Models\Devices\Device.cs" />
     <Compile Include="Models\Devices\DeviceProperty.cs" />
+    <Compile Include="Models\Document\Document.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\Users\Address.cs" />
     <Compile Include="Models\Users\Administrative.cs" />

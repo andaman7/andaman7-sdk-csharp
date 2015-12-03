@@ -16,7 +16,7 @@ namespace Andaman7SDK.Models.A7Items
         public string key { get; set; }
         public string value { get; set; }
         public int version { get; set; }
-        public string uuidMulti { get; set; }
+        public string multiId { get; set; }
         public string parentId { get; set; }
 
         public A7Item()
@@ -24,13 +24,13 @@ namespace Andaman7SDK.Models.A7Items
 
         }
 
-        public A7Item(A7ItemType type, String key, String value, String creatorUserId, String creatorDeviceId, String parentId) :
-            this(type, System.Guid.NewGuid().ToString(), key, value, creatorUserId, creatorDeviceId, parentId)
+        public A7Item(A7ItemType type, String key, String value, int version, String creatorUserId, String creatorDeviceId, String parentId) :
+            this(type, System.Guid.NewGuid().ToString(), key, value, version, creatorUserId, creatorDeviceId, parentId)
         {
             
         }
 
-        public A7Item(A7ItemType type, String id, String key, String value, String creatorUserId, String creatorDeviceId, String parentId)
+        public A7Item(A7ItemType type, String id, String key, String value, int version, String creatorUserId, String creatorDeviceId, String parentId)
         {
             this.id = id;
             this.creationDate = DateTime.UtcNow;
@@ -38,6 +38,7 @@ namespace Andaman7SDK.Models.A7Items
             this.creatorUserId = creatorUserId;
             this.key = key;
             this.value = value;
+            this.version = version;
             this.type = type.Type;
             this.parentId = parentId;
         }
