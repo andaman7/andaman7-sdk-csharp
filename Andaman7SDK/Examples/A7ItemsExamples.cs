@@ -45,24 +45,26 @@ namespace Andaman7SDK.Examples
             A7ItemService a7ItemService = client.A7ItemService;
 
             // Create an A7Item for the EHR
-            String ehrId = "4b99752e-4606-43e4-83a0-d4f3731d12ce"; // Your custom EHR ID (should not change in the future)
+            String ehrId = "4b99752e-4606-43e4-83a0-d4f3731d12ce"; // Your internal EHR ID (should be reused in the future to send additional data)
             A7Item ehr = new A7Item(A7ItemType.AmiSet, ehrId, "amiSet.ehr", null, 8, authUser.id, deviceId, null);
 
             // Create an A7Item for the document
             string b64EncodedFileContent = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("<YOUR FILE CONTENT>"));
             /*
-               To find the types of document supported by Andaman7, please visit the follwing URL
-               and search for AMIs starting by "ami.document" : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#amis
-               
-               The supported document subject matters are available there : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#sl_subjectMatter
+                To find the types of document supported by Andaman7, please visit the follwing URL
+                and search for AMIs starting by "ami.document" : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#amis
+            
+                The officially supported MIME types are : "text/plain", "text/html", "application/pdf", "image/jpeg", "image/png" and "image/gif"
+
+                The supported document subject matters are available there : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#sl_subjectMatter
              */
-            Document document = new Document(12, "<DOCUMENT TYPE>", b64EncodedFileContent, "<FILE NAME>", "<FILE MIME TYPE>", "<DOCUMENT SUBJECT MATTER>");
+            Document document = new Document(12, "ami.document.prescription", b64EncodedFileContent, "prescription-12345.txt", "text/plain", "li.generalMedicine");
 
             // Create an A7Item for the weight
-            A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "<WEIGHT VALUE>", 12, authUser.id, deviceId, ehrId);
+            A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);
 
             // Create an A7Item for the namespace entry
-            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "<YOUR DOMAIN NAME>", 8,  authUser.id, deviceId, ehrId);
+            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "com.example", 8,  authUser.id, deviceId, ehrId);
      
             // Create an A7Item for the namespace value
             A7Item namespaceValue = new A7Item(A7ItemType.Qualifier, "qualifier.namespaceValue", ehrId, 8, authUser.id, deviceId, namespaceEntry.id);

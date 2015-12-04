@@ -24,6 +24,11 @@ namespace Andaman7SDK.Models.Document
         public DateTime creationDate { get; set; }
         public string subjectMatter { get; set; }
 
+        public Document(int version, string type, string content, string name, string mimeType) :
+            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), null)
+        {
+        }
+
         public Document(int version, string type, string content, string name, string mimeType, string subjectMatter) :
             this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), subjectMatter)
         {
