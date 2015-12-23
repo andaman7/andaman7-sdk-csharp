@@ -13,6 +13,7 @@ namespace Andaman7SDK.Models.Document
         public string id { get; set; }
         public int version { get; set; }
         public string type { get; set; }
+        public string multiId { get; set; }
 
         // File related properties
         public string fileId { get; set; }
@@ -23,27 +24,20 @@ namespace Andaman7SDK.Models.Document
         public string mimeType { get; set; }
         public DateTime creationDate { get; set; }
         public string subjectMatter { get; set; }
+        public string description { get; set; }
+        public DateTime date { get; set; }
 
-        public Document(int version, string type, string content, string name, string mimeType) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), null)
+        public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string description, DateTime date) :
+            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), multiId, subjectMatter, description, date)
         {
         }
 
-        public Document(int version, string type, string content, string name, string mimeType, string subjectMatter) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), subjectMatter)
-        {
-        }
-
-        public Document(int version, string type, string content, string name, string mimeType, DateTime creationDate, string subjectMatter) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, creationDate, subjectMatter)
-        {
-        }
-
-        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string subjectMatter)
+        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string multiId, string subjectMatter, string description, DateTime date)
         {
             this.id = id;
             this.version = version;
             this.type = type;
+            this.multiId = multiId;
 
             this.fileId = fileId;
             this.content = content;
@@ -52,6 +46,8 @@ namespace Andaman7SDK.Models.Document
             this.mimeType = mimeType;
             this.creationDate = creationDate;
             this.subjectMatter = subjectMatter;
+            this.description = description;
+            this.date = date;
         }
     }
 }

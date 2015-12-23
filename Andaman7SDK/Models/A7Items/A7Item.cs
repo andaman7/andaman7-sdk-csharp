@@ -11,7 +11,7 @@ namespace Andaman7SDK.Models.A7Items
         public string id { get; set; }
         public DateTime creationDate { get; set; }
         public string creatorDeviceId { get; set; }
-        public string creatorUserId { get; set; }
+        public string creatorRegistrarId { get; set; }
         public string type { get; set; }
         public string key { get; set; }
         public string value { get; set; }
@@ -30,12 +30,12 @@ namespace Andaman7SDK.Models.A7Items
             
         }
 
-        public A7Item(A7ItemType type, String id, String key, String value, int version, String creatorUserId, String creatorDeviceId, String parentId)
+        public A7Item(A7ItemType type, String id, String key, String value, int version, String creatorRegistrarId, String creatorDeviceId, String parentId)
         {
             this.id = id;
             this.creationDate = DateTime.UtcNow;
             this.creatorDeviceId = creatorDeviceId;
-            this.creatorUserId = creatorUserId;
+            this.creatorRegistrarId = creatorRegistrarId;
             this.key = key;
             this.value = value;
             this.version = version;

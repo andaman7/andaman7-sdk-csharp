@@ -58,7 +58,8 @@ namespace Andaman7SDK.Examples
 
                 The supported document subject matters are available there : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#sl_subjectMatter
              */
-            Document document = new Document(12, "ami.document.prescription", b64EncodedFileContent, "prescription-12345.txt", "text/plain", "li.generalMedicine");
+            string documentId = Guid.NewGuid().ToString();
+            Document document = new Document(12, "ami.document.prescription", b64EncodedFileContent, "myFile.rtf", "application/rtf", documentId, "li.generalMedicine", "My document", new DateTime());
 
             // Create an A7Item for the weight
             A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);

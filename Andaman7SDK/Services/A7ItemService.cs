@@ -42,7 +42,7 @@ namespace Andaman7SDK.Services
 
             // Document (AMI)
             A7Item a7ItemDocument = new A7Item(A7ItemType.AMI, document.type, document.fileId, document.version, authUserId, deviceId, ehrId);
-            a7ItemDocument.multiId = document.id;
+            a7ItemDocument.multiId = document.multiId;
             a7Items.Add(a7ItemDocument);
             
             // Document name (Qualifier)
@@ -56,6 +56,13 @@ namespace Andaman7SDK.Services
 
             // Document subject matter (Qualifier)
             a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.subjectMatter", document.subjectMatter, document.version, authUserId, deviceId, a7ItemDocument.id));
+
+            // Document description (Qualifier)
+            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.description", document.description, document.version, authUserId, deviceId, a7ItemDocument.id));
+
+            // Document date (Qualifier)
+            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.date.ToString(), document.version, authUserId, deviceId, a7ItemDocument.id));
+
 
             return a7Items;
         }
