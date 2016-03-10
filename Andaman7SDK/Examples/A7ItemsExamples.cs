@@ -64,8 +64,8 @@ namespace Andaman7SDK.Examples
             Document document = new Document(14, "ami.document.prescription", b64EncodedFileContent, "myFile.rtf", "application/rtf", documentId, "li.generalMedicine", "ACME Hospital", "Dr. House", "My document", new DateTime());
 
             // Create an A7Item for the weight
-            //A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);
-            //A7Item weightUnit = new A7Item(A7ItemType.AMI, "qualifier.unit", "li.kilogram", 8, authUser.id, deviceId, weight.id);
+            A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);
+            A7Item weightUnit = new A7Item(A7ItemType.AMI, "qualifier.unit", "li.kilogram", 8, authUser.id, deviceId, weight.id);
 
             // Create an A7Item for the namespace entry
             A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", String.Format("{0}:{1}", sourceDomain, ehrId), 8,  authUser.id, deviceId, ehrId);
