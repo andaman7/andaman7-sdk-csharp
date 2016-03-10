@@ -57,6 +57,12 @@ namespace Andaman7SDK.Services
             // Document subject matter (Qualifier)
             a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.subjectMatter", document.subjectMatter, document.version, authUserId, deviceId, a7ItemDocument.id));
 
+            // Document care facility (Qualifier)
+            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careFacility", document.careFacility, document.version, authUserId, deviceId, a7ItemDocument.id));
+
+            // Document care provider (Qualifier)
+            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careProvider", document.careProvider, document.version, authUserId, deviceId, a7ItemDocument.id));
+
             // Document description (Qualifier)
             a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.description", document.description, document.version, authUserId, deviceId, a7ItemDocument.id));
 

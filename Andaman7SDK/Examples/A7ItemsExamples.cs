@@ -41,8 +41,10 @@ namespace Andaman7SDK.Examples
                 System.Environment.Exit(1);
             }
 
-            String deviceId = devices[0].id;
+            string deviceId = devices[0].id;
             A7ItemService a7ItemService = client.A7ItemService;
+
+            string sourceDomain = "com.example";
 
             // Create an A7Item for the EHR
             String ehrId = "4b99752e-4606-43e4-83a0-d4f3731d12ce"; // Your internal EHR ID (should be reused in the future to send additional data)
@@ -54,33 +56,28 @@ namespace Andaman7SDK.Examples
                 To find the types of document supported by Andaman7, please visit the follwing URL
                 and search for AMIs starting by "ami.document" : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#amis
             
-                The officially supported MIME types are : "text/plain", "text/html", "application/pdf", "image/jpeg", "image/png" and "image/gif"
+                The officially supported MIME types are : "text/plain", "text/html", "application/pdf", "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml"
 
                 The supported document subject matters are available there : http://a7-software.github.io/andaman7-api/guide/medical-data/types.html#sl_subjectMatter
              */
             string documentId = Guid.NewGuid().ToString();
-            Document document = new Document(12, "ami.document.prescription", b64EncodedFileContent, "myFile.rtf", "application/rtf", documentId, "li.generalMedicine", "My document", new DateTime());
+            Document document = new Document(14, "ami.document.prescription", b64EncodedFileContent, "myFile.rtf", "application/rtf", documentId, "li.generalMedicine", "ACME Hospital", "Dr. House", "My document", new DateTime());
 
             // Create an A7Item for the weight
-            A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);
+            //A7Item weight = new A7Item(A7ItemType.AMI, "ami.weight", "70", 12, authUser.id, deviceId, ehrId);
+            //A7Item weightUnit = new A7Item(A7ItemType.AMI, "qualifier.unit", "li.kilogram", 8, authUser.id, deviceId, weight.id);
 
             // Create an A7Item for the namespace entry
-            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", "com.example", 8,  authUser.id, deviceId, ehrId);
-     
-            // Create an A7Item for the namespace value
-            A7Item namespaceValue = new A7Item(A7ItemType.Qualifier, "qualifier.namespaceValue", ehrId, 8, authUser.id, deviceId, namespaceEntry.id);
+            A7Item namespaceEntry = new A7Item(A7ItemType.AMI, "ami.namespaceEntry", String.Format("{0}:{1}", sourceDomain, ehrId), 8,  authUser.id, deviceId, ehrId);
 
             List<A7Item> a7Items = new List<A7Item>();
             a7Items.Add(ehr);
             a7Items.AddRange(A7ItemService.GetA7ItemsFromDocument(authUser.id, deviceId, ehrId, document));
             a7Items.Add(weight);
             a7Items.Add(namespaceEntry);
-            a7Items.Add(namespaceValue);
 
             // Create envelope
-            A7ItemsEnvelope syncContent = new A7ItemsEnvelope();
-            syncContent.sourceDeviceId = deviceId;
-            syncContent.a7Items = JsonConvert.SerializeObject(a7Items);
+            A7ItemsEnvelope syncContent = new A7ItemsEnvelope(deviceId, sourceDomain, JsonConvert.SerializeObject(a7Items));
             syncContent.document = new DocumentContent(document.fileId, document.content);
             
             // Send the data to A7 server

@@ -24,15 +24,17 @@ namespace Andaman7SDK.Models.Document
         public string mimeType { get; set; }
         public DateTime creationDate { get; set; }
         public string subjectMatter { get; set; }
+        public string careFacility { get; set; }
+        public string careProvider { get; set; }
         public string description { get; set; }
         public DateTime date { get; set; }
 
-        public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string description, DateTime date) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), multiId, subjectMatter, description, date)
+        public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string careFacility, string careProvider, string description, DateTime date) :
+            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), multiId, subjectMatter, careFacility, careProvider, description, date)
         {
         }
 
-        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string multiId, string subjectMatter, string description, DateTime date)
+        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string multiId, string subjectMatter, string careFacility, string careProvider, string description, DateTime date)
         {
             this.id = id;
             this.version = version;
@@ -46,6 +48,8 @@ namespace Andaman7SDK.Models.Document
             this.mimeType = mimeType;
             this.creationDate = creationDate;
             this.subjectMatter = subjectMatter;
+            this.careFacility = careFacility;
+            this.careProvider = careProvider;
             this.description = description;
             this.date = date;
         }
