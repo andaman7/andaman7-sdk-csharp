@@ -77,7 +77,7 @@ namespace Andaman7SDK.Examples
             a7Items.Add(namespaceEntry);
 
             // Create envelope
-            A7ItemsEnvelope syncContent = new A7ItemsEnvelope(deviceId, sourceDomain, JsonConvert.SerializeObject(a7Items));
+            A7ItemsEnvelope syncContent = new A7ItemsEnvelope(deviceId, sourceDomain, ehrId, JsonConvert.SerializeObject(a7Items));
             syncContent.document = new DocumentContent(document.fileId, document.content);
             
             // Send the data to A7 server

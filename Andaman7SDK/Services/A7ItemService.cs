@@ -46,29 +46,52 @@ namespace Andaman7SDK.Services
             a7Items.Add(a7ItemDocument);
             
             // Document name (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.filename", document.name, document.version, authUserId, deviceId, a7ItemDocument.id));
-            
+            if (document.name != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.filename", document.name, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
+
             // Document MIME type (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.mimetype", document.mimeType, document.version, authUserId, deviceId, a7ItemDocument.id));
-            
+            if (document.mimeType != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.mimetype", document.mimeType, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
+
             // Document creation date (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.creationDate.ToString(), document.version, authUserId, deviceId, a7ItemDocument.id));
+            if (document.creationDate != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.creationDate.ToString(), document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             // Document subject matter (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.subjectMatter", document.subjectMatter, document.version, authUserId, deviceId, a7ItemDocument.id));
+            if (document.subjectMatter != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.subjectMatter", document.subjectMatter, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             // Document care facility (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careFacility", document.careFacility, document.version, authUserId, deviceId, a7ItemDocument.id));
+            if (document.careFacility != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careFacility", document.careFacility, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             // Document care provider (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careProvider", document.careProvider, document.version, authUserId, deviceId, a7ItemDocument.id));
+            if (document.careProvider != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careProvider", document.careProvider, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             // Document description (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.description", document.description, document.version, authUserId, deviceId, a7ItemDocument.id));
+            if (document.description != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.description", document.description, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             // Document date (Qualifier)
-            a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.date.ToString(), document.version, authUserId, deviceId, a7ItemDocument.id));
-
+            if (document.date != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.date.ToString(), document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
 
             return a7Items;
         }
