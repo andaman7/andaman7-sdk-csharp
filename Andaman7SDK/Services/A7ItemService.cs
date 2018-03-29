@@ -59,8 +59,9 @@ namespace Andaman7SDK.Services
 
             // Document creation date (Qualifier)
             if (document.creationDate != null)
-            {
-                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.creationDate.ToString("yyyy-MM-dd"), document.version, authUserId, deviceId, a7ItemDocument.id));
+            {   
+                string creationDateText = document.creationDate.ToString("yyyy-MM-ddTHH:mm:ss.fff") + document.creationDate.ToString("zzz").Replace(":","");
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", creationDateText, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
 
             // Document subject matter (Qualifier)
@@ -90,7 +91,8 @@ namespace Andaman7SDK.Services
             // Document date (Qualifier)
             if (document.date != null)
             {
-                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", document.date.ToString("yyyy-MM-dd"), document.version, authUserId, deviceId, a7ItemDocument.id));
+                string dateText = document.date.ToString("yyyy-MM-ddTHH:mm:ss.fff") + document.date.ToString("zzz").Replace(":","");
+                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", dateText, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
 
             return a7Items;
