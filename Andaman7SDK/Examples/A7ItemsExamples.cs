@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Andaman7SDK.Models.Converter;
 
 namespace Andaman7SDK.Examples
 {
@@ -77,7 +78,8 @@ namespace Andaman7SDK.Examples
             a7Items.Add(namespaceEntry);
 
             // Create envelope
-            A7ItemsEnvelope syncContent = new A7ItemsEnvelope(deviceId, sourceDomain, ehrId, JsonConvert.SerializeObject(a7Items));
+            A7DateConverter converter = new A7DateConverter();
+            A7ItemsEnvelope syncContent = new A7ItemsEnvelope(deviceId, sourceDomain, ehrId, JsonConvert.SerializeObject(a7Items, converter));
             syncContent.document = new DocumentContent(document.fileId, document.content);
             
             // Send the data to A7 server
