@@ -57,13 +57,6 @@ namespace Andaman7SDK.Services
                 a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.mimetype", document.mimeType, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
 
-            // Document creation date (Qualifier)
-            if (document.creationDate != null)
-            {   
-                string creationDateText = document.creationDate.ToString("yyyy-MM-ddTHH:mm:ss.fff") + document.creationDate.ToString("zzz").Replace(":","");
-                a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.date", creationDateText, document.version, authUserId, deviceId, a7ItemDocument.id));
-            }
-
             // Document subject matter (Qualifier)
             if (document.subjectMatter != null)
             {

@@ -30,7 +30,7 @@ namespace Andaman7SDK.Models.Document
         public DateTime date { get; set; }
 
         public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string careFacility, string careProvider, string description, DateTime date) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, new DateTime(), multiId, subjectMatter, careFacility, careProvider, description, date)
+            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, DateTime.UtcNow, multiId, subjectMatter, careFacility, careProvider, description, date)
         {
         }
 
