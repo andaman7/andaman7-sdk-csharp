@@ -26,15 +26,17 @@ namespace Andaman7SDK.Models.Document
         public string subjectMatter { get; set; }
         public string careFacility { get; set; }
         public string careProvider { get; set; }
+        public string careFacilityId { get; set; }
+        public string careProviderId { get; set; }
         public string description { get; set; }
         public DateTime date { get; set; }
 
-        public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string careFacility, string careProvider, string description, DateTime date) :
-            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, DateTime.UtcNow, multiId, subjectMatter, careFacility, careProvider, description, date)
+        public Document(int version, string type, string content, string name, string mimeType, string multiId, string subjectMatter, string careFacilityId, string careProviderId, string description, DateTime date) :
+            this(Guid.NewGuid().ToString(), version, type, Guid.NewGuid().ToString(), content, name, mimeType, DateTime.UtcNow, multiId, subjectMatter, null, null, careFacilityId, careProviderId, description, date)
         {
         }
 
-        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string multiId, string subjectMatter, string careFacility, string careProvider, string description, DateTime date)
+        public Document(string id, int version, string type, string fileId, string content, string name, string mimeType, DateTime creationDate, string multiId, string subjectMatter, string careFacility, string careProvider, string careFacilityId, string careProviderId, string description, DateTime date)
         {
             this.id = id;
             this.version = version;
@@ -50,6 +52,8 @@ namespace Andaman7SDK.Models.Document
             this.subjectMatter = subjectMatter;
             this.careFacility = careFacility;
             this.careProvider = careProvider;
+            this.careFacilityId = careFacilityId;
+            this.careProviderId = careProviderId;
             this.description = description;
             this.date = date;
         }

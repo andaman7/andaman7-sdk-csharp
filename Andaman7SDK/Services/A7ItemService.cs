@@ -4,6 +4,8 @@ using Andaman7SDK.Models.Envelopes;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Andaman7SDK.Services
 {
@@ -36,6 +38,13 @@ namespace Andaman7SDK.Services
             Client.Execute(request);
         }
 
+        public String CreatePseudoRandomUuid(String value)
+        {
+            SHA256 shaAlgorithm = new SHA256Managed();
+            byte[] shaDigest = shaAlgorithm.ComputeHash(ASCIIEncoding.ASCII.GetBytes(value));
+            return BitConverter.ToString(shaDigest).Substring(0, 36);
+        }
+        
         public static List<A7Item> GetA7ItemsFromDocument(string authUserId, string deviceId, string ehrId, Document document)
         {
             List<A7Item> a7Items = new List<A7Item>();
@@ -63,14 +72,24 @@ namespace Andaman7SDK.Services
                 a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.subjectMatter", document.subjectMatter, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
 
+            // Document care facility (AmiRef)
+            if (document.careFacilityId != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.AmiRef, "amiref.careFacility", document.careFacilityId, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
             // Document care facility (Qualifier)
-            if (document.careFacility != null)
+            else if (document.careFacility != null)
             {
                 a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careFacility", document.careFacility, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
 
-            // Document care provider (Qualifier)
+            // Document care provider (AmiRef)
             if (document.careProvider != null)
+            {
+                a7Items.Add(new A7Item(A7ItemType.AmiRef, "amiref.careProvider", document.careProvider, document.version, authUserId, deviceId, a7ItemDocument.id));
+            }
+            // Document care provider (Qualifier)
+            else if (document.careProvider != null)
             {
                 a7Items.Add(new A7Item(A7ItemType.Qualifier, "qualifier.careProvider", document.careProvider, document.version, authUserId, deviceId, a7ItemDocument.id));
             }
