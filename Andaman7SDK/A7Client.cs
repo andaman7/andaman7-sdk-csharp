@@ -7,6 +7,7 @@ using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Andaman7SDK
 
         public A7Client(Config config)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             this.Config = config;
             this.RestClient = new RestClient(config.BaseUrl);
             this.UserService = new UserService(this);
