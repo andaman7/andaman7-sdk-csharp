@@ -1,5 +1,5 @@
 ﻿{
-  "baseUrl": "https://my.andaman7.com/public/v1",
+  "baseUrl": "https://prod-server.andaman7.com/public/v1",
   "apiKey": "<YOUR API KEY>",
   "credentials": {
     "email": "<YOUR EMAIL>",
